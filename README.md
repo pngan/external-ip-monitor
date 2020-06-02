@@ -1,2 +1,3 @@
 # external-ip-monitor
-Monitors changes to external IP address, and publishes change events
+Monitors changes to external IP address, and publishes change events.
+
