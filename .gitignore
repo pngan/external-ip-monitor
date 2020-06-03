@@ -35,3 +35,4 @@ msbuild.wrn
 
 # Visual Studio
 .vs/
+App/data/ip-address.txt

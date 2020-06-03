@@ -13,4 +13,5 @@ To build the executable and docker file, run the commands:
 
 ## Reference
 How to build a .Net Core Docker application
+https://stackify.com/a-start-to-finish-guide-to-docker-for-net/
 https://docs.microsoft.com/en-us/dotnet/core/docker/build-container?tabs=linux    
