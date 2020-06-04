@@ -30,7 +30,7 @@ namespace NetCore.Docker
                 }
 
                 string previousIpAddress = null;
-                string fileName = @"data/ip-address.txt";
+                string fileName = @"/ipmon/ip-address.txt";
                 try
                 {
                     previousIpAddress = File.ReadAllText(fileName);
