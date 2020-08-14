@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>ipchange_detector</RootNamespace>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ipmonitor-interface\ipmonitor-interface.csproj" />
+    <ProjectReference Include="..\ipmonitor-model\ipmonitor-model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="microsoft.extensions.http" Version="3.1.7" />
+  </ItemGroup>
+
+</Project>
