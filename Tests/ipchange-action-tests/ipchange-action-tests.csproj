@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ipchange-action\ipchange-action.csproj" />
+    <ProjectReference Include="..\..\ipmonitor-interface\ipmonitor-interface.csproj" />
   </ItemGroup>
 
 </Project>

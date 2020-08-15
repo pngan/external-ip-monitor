@@ -16,7 +16,6 @@ namespace ipchange_detector
             _client = httpClientFactory.CreateClient();
         }
 
-
         public async Task<IIpAddressChangedResult> HasIpAddressChanged()
         {
             try
