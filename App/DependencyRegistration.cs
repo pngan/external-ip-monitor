@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Autofac.Extensions.DependencyInjection;
 using Autofac;
 using ipmonitor_interface;
+using System.IO.Abstractions;
 
 namespace NetCore.Docker
 {
@@ -20,6 +21,8 @@ namespace NetCore.Docker
             containerBuilder.RegisterType<IpAddressProcessorEngine>().As<IIpAddressProcessorEngine>().SingleInstance();
             containerBuilder.RegisterType<ChangeOvhRegistryARecord>().As<IIpAddressProcessor>().SingleInstance();
             containerBuilder.RegisterType<IpMonitor>().As<IIpMonitor>().SingleInstance();
+            containerBuilder.RegisterType<FileSystem>().As<IFileSystem>().SingleInstance();
+            
             var container = containerBuilder.Build();
             return container;
         }

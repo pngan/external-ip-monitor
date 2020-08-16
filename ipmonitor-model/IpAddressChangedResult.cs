@@ -16,7 +16,7 @@ namespace ipmonitor_model
         }
 
         public bool IpAddressHasChanged { get; }
-        public string OldIpAddress { get; }
-        public string NewIpAddress { get; }
+        public string OldIpAddress { get; } = string.Empty;
+        public string NewIpAddress { get; } = string.Empty;
     }
 }
