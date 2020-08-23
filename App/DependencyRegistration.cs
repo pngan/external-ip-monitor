@@ -5,6 +5,8 @@ using Autofac.Extensions.DependencyInjection;
 using Autofac;
 using ipmonitor_interface;
 using System.IO.Abstractions;
+using Serilog;
+using AutofacSerilogIntegration;
 
 namespace NetCore.Docker
 {
@@ -12,11 +14,18 @@ namespace NetCore.Docker
     {
         internal static IContainer RegisterDependencies()
         {
+            // Set up SeriLogger
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console(theme: Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme.Code)
+                .CreateLogger();
+
+            // Set up IHttpClientFactory
             var services = new ServiceCollection();
-            services.AddHttpClient();   // for implementation of IHttpClientFactory
+            services.AddHttpClient();
 
             var containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);
+            containerBuilder.RegisterLogger();
             containerBuilder.RegisterType<IpAddressChangeDetector>().As<IIpAddressChangeDetector>().SingleInstance();
             containerBuilder.RegisterType<IpAddressProcessorEngine>().As<IIpAddressProcessorEngine>().SingleInstance();
             containerBuilder.RegisterType<ChangeOvhRegistryARecord>().As<IIpAddressProcessor>().SingleInstance();

@@ -4,6 +4,7 @@ using ipchange_action;
 using ipchange_detector;
 using ipmonitor_interface;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 
 namespace NetCore.Docker
 {
@@ -13,16 +14,20 @@ namespace NetCore.Docker
         private readonly int CheckIntervalInSeconds;
         private readonly IIpAddressChangeDetector _addressChangeDetector;
         private readonly IIpAddressProcessorEngine _addressProcessorEngine;
+        private readonly ILogger _logger;
 
         public IpMonitor(
             IIpAddressChangeDetector addressChangeDetector,
             IIpAddressProcessorEngine addressProcessorEngine,
-            IIpAddressProcessor[] addressProcessors)
+            IIpAddressProcessor[] addressProcessors,
+            ILogger logger)
         {
             _addressChangeDetector = addressChangeDetector;
             _addressProcessorEngine = addressProcessorEngine;
             _addressProcessorEngine.RegisterAddressProcessors(addressProcessors);
+            _logger = logger;
 
+            _logger.Information("Reading configuration from: {AppSettingsFile}", AppSettingsFile);
             IConfiguration config = new ConfigurationBuilder()
               .AddJsonFile(AppSettingsFile, true, true)
               .Build();
@@ -33,7 +38,7 @@ namespace NetCore.Docker
             }
             catch
             {
-                Console.WriteLine("Unable to read integer value for 'pollIntervalInSeconds' from appsettings.json.");
+                _logger.Error("Unable to read integer value for 'pollIntervalInSeconds' from: {AppSettingsFile}", AppSettingsFile);
             }
         }
 
@@ -49,7 +54,7 @@ namespace NetCore.Docker
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Exception occurred [{e}]");
+                _logger.Error("Exception occurred {exception}", e);
                 return -1;
             }
         }
