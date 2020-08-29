@@ -58,7 +58,7 @@ namespace ipchange_detector
                 var fileInfoWrapper = new FileInfoWrapper(_fileSystem, file);
                 fileInfoWrapper.Directory.Create(); // If the directory already exists, this method does nothing.
 
-                _logger.Information("IP Address changed from {previousIpAddress} to {currentIpAddress}", previousIpAddress, currentIpAddress);
+                _logger.Information("External IP Address changed from {previousIpAddress} to {currentIpAddress}", previousIpAddress, currentIpAddress);
                 _fileSystem.File.WriteAllText(PreviousIpAddressFile, currentIpAddress);
                 return new IpAddressChangedResult(true, previousIpAddress, currentIpAddress);
             }

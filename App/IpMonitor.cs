@@ -35,6 +35,7 @@ namespace NetCore.Docker
             try
             {
                 CheckIntervalInSeconds = int.Parse(config["pollIntervalInSeconds"]);
+                _logger.Information("Polling interval set to: {PollingInterval} seconds", CheckIntervalInSeconds);
             }
             catch
             {
