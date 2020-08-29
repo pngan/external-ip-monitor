@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutofacSerilogIntegration" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ipmonitor-interface\ipmonitor-interface.csproj" />
     <ProjectReference Include="..\ipmonitor-model\ipmonitor-model.csproj" />
   </ItemGroup>

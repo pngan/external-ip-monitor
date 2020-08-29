@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ipmonitor_interface;
 using ipmonitor_model;
 using System.IO.Abstractions;
+using Serilog;
 
 namespace ipchange_detector
 {
@@ -12,13 +13,15 @@ namespace ipchange_detector
     {
         private readonly HttpClient _client;
         private readonly IFileSystem _fileSystem;
+        private readonly ILogger _logger;
         public const string PreviousIpAddressFile = @"\ipmon\ip-address.txt";
         public const string IpifyUri = "https://api.ipify.org";
 
-        public IpAddressChangeDetector(IHttpClientFactory httpClientFactory, IFileSystem fileSystem)
+        public IpAddressChangeDetector(IHttpClientFactory httpClientFactory, IFileSystem fileSystem, ILogger logger)
         {
             _client = httpClientFactory.CreateClient();
             _fileSystem = fileSystem;
+            _logger = logger;
         }
 
         public async Task<IIpAddressChangedResult> HasIpAddressChanged()
@@ -45,7 +48,7 @@ namespace ipchange_detector
                 if (!string.IsNullOrWhiteSpace(previousIpAddress)
                     && previousIpAddress.Equals(currentIpAddress, StringComparison.OrdinalIgnoreCase))
                 {
-                    Console.WriteLine($"IP Address remains unchanged from [{currentIpAddress}]");
+                    _logger.Information("External IP Address remains unchanged from {currentIpAddress}", currentIpAddress);
 
                     // IP Address unchanged, nothing to do, exit
                     return new IpAddressChangedResult(false, previousIpAddress, currentIpAddress);
@@ -55,14 +58,17 @@ namespace ipchange_detector
                 var fileInfoWrapper = new FileInfoWrapper(_fileSystem, file);
                 fileInfoWrapper.Directory.Create(); // If the directory already exists, this method does nothing.
 
-                Console.WriteLine($"IP Address changed from [{previousIpAddress}] to [{currentIpAddress}]");
+                _logger.Information("IP Address changed from {previousIpAddress} to {currentIpAddress}", previousIpAddress, currentIpAddress);
                 _fileSystem.File.WriteAllText(PreviousIpAddressFile, currentIpAddress);
                 return new IpAddressChangedResult(true, previousIpAddress, currentIpAddress);
             }
             catch (HttpRequestException e)
             {
-                Console.WriteLine("\nException Caught!");
-                Console.WriteLine("Message :{0} ", e.Message);
+                _logger.Error(e, "Unable to retrieve external IP Address from {endPoint}", IpifyUri);
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Error occured while determining if address had changed");
             }
 
             return new IpAddressChangedResult();
