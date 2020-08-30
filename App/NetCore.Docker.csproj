@@ -4,8 +4,8 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Nullable>enable</Nullable>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\ipchange-action\ipchange-action.csproj" />
     <ProjectReference Include="..\ipchange-detector\ipchange-detector.csproj" />

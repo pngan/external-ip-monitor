@@ -16,7 +16,7 @@ namespace NetCore.Docker
         {
             // Set up SeriLogger
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.Seq("http://manuka:5341")
+                .WriteTo.Seq("http://seqserver:5341")
                 .WriteTo.Console(theme: Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme.Code)
                 .CreateLogger();
 
