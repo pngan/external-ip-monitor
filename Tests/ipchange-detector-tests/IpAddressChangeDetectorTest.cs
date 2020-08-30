@@ -9,6 +9,7 @@ using System.Net;
 using System;
 using System.Threading;
 using System.IO;
+using Serilog;
 
 namespace ipchange_detector_tests
 {
@@ -44,7 +45,7 @@ namespace ipchange_detector_tests
             mockFileSystem.AddFile(IpAddressChangeDetector.PreviousIpAddressFile, mockInputFile);
 
             // Act
-            var sut = new IpAddressChangeDetector(httpClientFactory.Object, mockFileSystem);
+            var sut = new IpAddressChangeDetector(httpClientFactory.Object, mockFileSystem, Mock.Of<ILogger>());
             var result = await sut.HasIpAddressChanged();
 
             // Assert
@@ -71,7 +72,7 @@ namespace ipchange_detector_tests
             mockFileSystem.AddFile(IpAddressChangeDetector.PreviousIpAddressFile, mockInputFile);
 
             // Act and Assert
-            var sut = new IpAddressChangeDetector(httpClientFactory.Object, mockFileSystem);
+            var sut = new IpAddressChangeDetector(httpClientFactory.Object, mockFileSystem, Mock.Of<ILogger>());
             Assert.That(async () => { await sut.HasIpAddressChanged(); }, Throws.Exception.TypeOf<Exception>());
         }
 
@@ -104,7 +105,7 @@ namespace ipchange_detector_tests
             mockFileSystem.AddFile(IpAddressChangeDetector.PreviousIpAddressFile, mockInputFile);
 
             // Act and Assert
-            var sut = new IpAddressChangeDetector(httpClientFactory.Object, mockFileSystem);
+            var sut = new IpAddressChangeDetector(httpClientFactory.Object, mockFileSystem, Mock.Of<ILogger>());
             Assert.That(async () => { await sut.HasIpAddressChanged(); }, Throws.Exception.TypeOf<InvalidDataException>());
         }
     }

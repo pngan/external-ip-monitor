@@ -69,6 +69,7 @@ namespace ipchange_detector
             catch (Exception e)
             {
                 _logger.Error(e, "Error occured while determining if address had changed");
+                throw;
             }
 
             return new IpAddressChangedResult();
