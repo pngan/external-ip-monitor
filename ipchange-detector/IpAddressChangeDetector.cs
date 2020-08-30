@@ -14,7 +14,7 @@ namespace ipchange_detector
         private readonly HttpClient _client;
         private readonly IFileSystem _fileSystem;
         private readonly ILogger _logger;
-        public const string PreviousIpAddressFile = @"\ipmon\ip-address.txt";
+        public const string PreviousIpAddressFile = @"/ipmon/ip-address.txt";
         public const string IpifyUri = "https://api.ipify.org";
 
         public IpAddressChangeDetector(IHttpClientFactory httpClientFactory, IFileSystem fileSystem, ILogger logger)
@@ -36,22 +36,27 @@ namespace ipchange_detector
                 }
 
                 string previousIpAddress = string.Empty;
-                try
-                {
-                    previousIpAddress = _fileSystem.File.ReadAllText(PreviousIpAddressFile);
-                }
-                catch
-                {
-                    return new IpAddressChangedResult();
-                }
 
-                if (!string.IsNullOrWhiteSpace(previousIpAddress)
-                    && previousIpAddress.Equals(currentIpAddress, StringComparison.OrdinalIgnoreCase))
+                if (_fileSystem.File.Exists(PreviousIpAddressFile))
                 {
-                    _logger.Information("External IP Address remains unchanged from {currentIpAddress}", currentIpAddress);
+                    try
+                    {
+                        previousIpAddress = _fileSystem.File.ReadAllText(PreviousIpAddressFile);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Error(ex, "Unable to read previous ip address from file {dataFile}", PreviousIpAddressFile);
+                        return new IpAddressChangedResult();
+                    }
 
-                    // IP Address unchanged, nothing to do, exit
-                    return new IpAddressChangedResult(false, previousIpAddress, currentIpAddress);
+                    if (!string.IsNullOrWhiteSpace(previousIpAddress)
+                        && previousIpAddress.Equals(currentIpAddress, StringComparison.OrdinalIgnoreCase))
+                    {
+                        _logger.Information("External IP Address remains unchanged from {currentIpAddress}", currentIpAddress);
+
+                        // IP Address unchanged, nothing to do, exit
+                        return new IpAddressChangedResult(false, previousIpAddress, currentIpAddress);
+                    }
                 }
 
                 var file = new FileInfo(PreviousIpAddressFile);
