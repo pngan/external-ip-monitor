@@ -7,3 +7,7 @@
 Tests
 *.sln
 *.md
+
+
+# Secrets
+.ovh.conf

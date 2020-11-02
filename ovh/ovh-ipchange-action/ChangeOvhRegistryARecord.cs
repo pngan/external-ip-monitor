@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using ipmonitor_interface;
 using Serilog;
+using Ovh.Api;
+using System.Collections.Generic;
 
 namespace ipchange_action
 {
@@ -17,6 +19,8 @@ namespace ipchange_action
         public async Task ProcessNewIpAddress(
             string newIpAddress)
         {
+            OvhRestClient client = new OvhRestClient();
+            var billIds = await client.GetAsync<List<string>>("/domain");
             _logger.Information("Processing new IP Address {newIpAddress}", newIpAddress);
             await Task.CompletedTask;
         }

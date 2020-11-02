@@ -21,6 +21,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ipchange-action-tests", "Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ipchange-detector-tests", "Tests\ipchange-detector-tests\ipchange-detector-tests.csproj", "{090883A6-95FB-44BD-8931-7E20B59820E8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ovh", "ovh", "{DC97439A-4073-497F-8E11-CECCD66E1CD4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "csharp-ovh", "ovh\csharp-ovh-client\csharp-ovh.csproj", "{6F56D3B4-DF52-4443-BF34-39BF72F056BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ovh-ipchange-action", "ovh\ovh-ipchange-action\ovh-ipchange-action.csproj", "{7FDA14AA-5F9A-4B5A-A018-B3338233B1E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +133,30 @@ Global
 		{090883A6-95FB-44BD-8931-7E20B59820E8}.Release|x64.Build.0 = Release|Any CPU
 		{090883A6-95FB-44BD-8931-7E20B59820E8}.Release|x86.ActiveCfg = Release|Any CPU
 		{090883A6-95FB-44BD-8931-7E20B59820E8}.Release|x86.Build.0 = Release|Any CPU
+		{6F56D3B4-DF52-4443-BF34-39BF72F056BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F56D3B4-DF52-4443-BF34-39BF72F056BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F56D3B4-DF52-4443-BF34-39BF72F056BE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6F56D3B4-DF52-4443-BF34-39BF72F056BE}.Debug|x64.Build.0 = Debug|Any CPU
+		{6F56D3B4-DF52-4443-BF34-39BF72F056BE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6F56D3B4-DF52-4443-BF34-39BF72F056BE}.Debug|x86.Build.0 = Debug|Any CPU
+		{6F56D3B4-DF52-4443-BF34-39BF72F056BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F56D3B4-DF52-4443-BF34-39BF72F056BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F56D3B4-DF52-4443-BF34-39BF72F056BE}.Release|x64.ActiveCfg = Release|Any CPU
+		{6F56D3B4-DF52-4443-BF34-39BF72F056BE}.Release|x64.Build.0 = Release|Any CPU
+		{6F56D3B4-DF52-4443-BF34-39BF72F056BE}.Release|x86.ActiveCfg = Release|Any CPU
+		{6F56D3B4-DF52-4443-BF34-39BF72F056BE}.Release|x86.Build.0 = Release|Any CPU
+		{7FDA14AA-5F9A-4B5A-A018-B3338233B1E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FDA14AA-5F9A-4B5A-A018-B3338233B1E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FDA14AA-5F9A-4B5A-A018-B3338233B1E0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7FDA14AA-5F9A-4B5A-A018-B3338233B1E0}.Debug|x64.Build.0 = Debug|Any CPU
+		{7FDA14AA-5F9A-4B5A-A018-B3338233B1E0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7FDA14AA-5F9A-4B5A-A018-B3338233B1E0}.Debug|x86.Build.0 = Debug|Any CPU
+		{7FDA14AA-5F9A-4B5A-A018-B3338233B1E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FDA14AA-5F9A-4B5A-A018-B3338233B1E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FDA14AA-5F9A-4B5A-A018-B3338233B1E0}.Release|x64.ActiveCfg = Release|Any CPU
+		{7FDA14AA-5F9A-4B5A-A018-B3338233B1E0}.Release|x64.Build.0 = Release|Any CPU
+		{7FDA14AA-5F9A-4B5A-A018-B3338233B1E0}.Release|x86.ActiveCfg = Release|Any CPU
+		{7FDA14AA-5F9A-4B5A-A018-B3338233B1E0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,6 +164,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{8FE600D2-3A2F-400C-9D45-EF504A1FB500} = {ABFC6617-C7C4-4B11-A8AF-DE14CD39446B}
 		{090883A6-95FB-44BD-8931-7E20B59820E8} = {ABFC6617-C7C4-4B11-A8AF-DE14CD39446B}
+		{6F56D3B4-DF52-4443-BF34-39BF72F056BE} = {DC97439A-4073-497F-8E11-CECCD66E1CD4}
+		{7FDA14AA-5F9A-4B5A-A018-B3338233B1E0} = {DC97439A-4073-497F-8E11-CECCD66E1CD4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F50540BC-7EF1-4B19-B86F-99ED147AB7B7}

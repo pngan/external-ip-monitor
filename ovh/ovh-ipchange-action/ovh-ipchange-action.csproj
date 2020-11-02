@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>ovh_ipchange_action</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutofacSerilogIntegration" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ipmonitor-interface\ipmonitor-interface.csproj" />
+    <ProjectReference Include="..\csharp-ovh-client\csharp-ovh.csproj" />
+  </ItemGroup>
+
+</Project>

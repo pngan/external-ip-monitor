@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -10,6 +10,7 @@
     <ProjectReference Include="..\ipchange-action\ipchange-action.csproj" />
     <ProjectReference Include="..\ipchange-detector\ipchange-detector.csproj" />
     <ProjectReference Include="..\ipmonitor-interface\ipmonitor-interface.csproj" />
+    <ProjectReference Include="..\ovh\ovh-ipchange-action\ovh-ipchange-action.csproj" />
   </ItemGroup>
 
   <ItemGroup>
