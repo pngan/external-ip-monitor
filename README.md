@@ -15,7 +15,7 @@ Prerequisite is Docker.
 
 To build the executable and docker file, run the commands:
 
-    cd App
+    cd <Dir with Dockerfile>
     docker build -t pngan/ipmon .
 
 To run
