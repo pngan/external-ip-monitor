@@ -1,5 +1,5 @@
 
-rem echo off
+echo off
 
 docker build -t pngan/ipmon .
 docker login
