@@ -12,6 +12,7 @@ namespace NetCore.Docker
     {
         private const string AppSettingsFile = "appsettings.json";
         private readonly int CheckIntervalInSeconds;
+        private readonly bool AlwaysUpdateIpAddress;
         private readonly IIpAddressChangeDetector _addressChangeDetector;
         private readonly IIpAddressProcessorEngine _addressProcessorEngine;
         private readonly ILogger _logger;
@@ -35,7 +36,9 @@ namespace NetCore.Docker
             try
             {
                 CheckIntervalInSeconds = int.Parse(config["pollIntervalInSeconds"]);
-                _logger.Information("Polling interval set to: {PollingInterval} seconds", CheckIntervalInSeconds);
+                _logger.Information("Config: pollIntervalInSeconds = {PollingInterval} seconds", CheckIntervalInSeconds);
+                AlwaysUpdateIpAddress = bool.Parse(config["alwaysUpdateIpAddress"]);
+                _logger.Information("Config: alwaysUpdateIpAddress = true; Force address update on every address check");
             }
             catch
             {
@@ -63,7 +66,7 @@ namespace NetCore.Docker
         public async Task CheckIpAddressChange()
         {
             var ipChangeResult = await _addressChangeDetector.HasIpAddressChanged();
-            if (ipChangeResult.IpAddressHasChanged)
+            if (ipChangeResult.IpAddressHasChanged || AlwaysUpdateIpAddress)
                 await _addressProcessorEngine.ProcessNewIpAddress(ipChangeResult.NewIpAddress);
         }
     }
