@@ -72,7 +72,7 @@ namespace Ovh.Api
         private readonly string[] _configPaths = {
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
             AppDomain.CurrentDomain.BaseDirectory,
-            @"/run/secrets/ovh_data/"           // Used by Docker Secrets
+            @"/run/secrets/"           // Used by Docker Secrets
         };
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Ovh.Api
             string chosenPath = _configPaths.LastOrDefault(p => File.Exists(Path.Combine(p, confFileName)));
             if (chosenPath == null)
             {
-                logger.Information("csharp-ovh: Unable to find '.ovh.conf' secrets file.", chosenPath);
+                logger.Information("csharp-ovh: Unable to find 'ovh.conf' secrets file.", chosenPath);
                 Config = new ConfigurationBuilder().Build();
             }
             else

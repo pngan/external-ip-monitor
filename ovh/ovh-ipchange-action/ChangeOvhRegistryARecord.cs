@@ -42,6 +42,9 @@ namespace ipchange_action
                 return;
             }
 
+            _logger.Information("Domain {domain} has been retrieved.", domain[0]);
+
+
             List<long> dnsRecords;
             try
             {

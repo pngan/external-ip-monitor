@@ -116,7 +116,7 @@ namespace Ovh.Api
 
         private void LoadConfiguration(string endpoint, string applicationKey,
             string applicationSecret, string consumerKey, char parameterSeparator,
-            string confFileName = ".ovh.conf")
+            string confFileName = "ovh.conf")
         {
 
             Endpoint = new Uri(_endpoints["ovh-eu"]);
@@ -184,7 +184,7 @@ namespace Ovh.Api
         public OvhRestClient(ILogger logger,  string endpoint = null, string applicationKey = null,
             string applicationSecret = null, string consumerKey = null,
             TimeSpan? defaultTimeout = null, char parameterSeparator = ',',
-            HttpClient httpClient = null, string confFileName = ".ovh.conf") : this(logger)
+            HttpClient httpClient = null, string confFileName = "ovh.conf") : this(logger)
         {
             LoadConfiguration(endpoint, applicationKey, applicationSecret, consumerKey, parameterSeparator, confFileName);
             _defaultTimeout = defaultTimeout ?? _defaultTimeout;

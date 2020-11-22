@@ -10,4 +10,4 @@ Tests
 
 
 # Secrets
-.ovh.conf
+ovh/csharp-ovh-client/ovh.conf

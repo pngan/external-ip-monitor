@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include=".ovh.conf">
+    <Resource Include="ovh.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
@@ -42,7 +42,7 @@
 
 
     <ItemGroup>
-      <None Update=".ovh.conf">
+      <None Update="ovh.conf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>
