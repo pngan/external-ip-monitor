@@ -38,7 +38,7 @@ namespace NetCore.Docker
                 CheckIntervalInSeconds = int.Parse(config["pollIntervalInSeconds"]);
                 _logger.Information("Config: pollIntervalInSeconds = {PollingInterval} seconds", CheckIntervalInSeconds);
                 AlwaysUpdateIpAddress = bool.Parse(config["alwaysUpdateIpAddress"]);
-                _logger.Information("Config: alwaysUpdateIpAddress = true; Force address update on every address check");
+                _logger.Information("Config: alwaysUpdateIpAddress = {AlwaysUpdateIpAddress}; Force address update on every address check", AlwaysUpdateIpAddress);
             }
             catch
             {

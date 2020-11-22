@@ -4,7 +4,7 @@ WORKDIR /
 COPY . /
 
 WORKDIR /App
-RUN dotnet restore
+RUN dotnet clean --configuration Release
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
