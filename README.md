@@ -17,9 +17,18 @@ To build the executable and docker file, run the commands:
 
     .\build.cmd
 
-To run
-    docker volume create ipmon-vol
+
+To run on home server
+
+    .\deploy-ipmon
+
+
+To run from command line
+
+    docker volume create ipmon-vol  # Create volume to store old ip address
     docker run -v ipmon-vol:/ipmon pngan/ipmon
+
+
 
 
 ## Reference
