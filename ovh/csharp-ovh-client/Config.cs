@@ -30,6 +30,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.FileProviders.Physical;
 using Ovh.Api.Exceptions;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -70,7 +71,8 @@ namespace Ovh.Api
         //Locations where to look for configuration file by *increasing* priority
         private readonly string[] _configPaths = {
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            AppDomain.CurrentDomain.BaseDirectory
+            AppDomain.CurrentDomain.BaseDirectory,
+            @"/run/secrets/ovh_data/"           // Used by Docker Secrets
         };
 
         /// <summary>
@@ -81,15 +83,17 @@ namespace Ovh.Api
         /// <summary>
         /// Create a config parser and load config from environment.
         /// </summary>
-        public ConfigurationManager(string confFileName)
+        public ConfigurationManager(string confFileName, ILogger logger)
         {
             string chosenPath = _configPaths.LastOrDefault(p => File.Exists(Path.Combine(p, confFileName)));
             if (chosenPath == null)
             {
+                logger.Information("csharp-ovh: Unable to find '.ovh.conf' secrets file.", chosenPath);
                 Config = new ConfigurationBuilder().Build();
             }
             else
             {
+                logger.Information("csharp-ovh: Using ovh config file {chosenPath}", chosenPath);
                 var provider = new PhysicalFileProvider(chosenPath, ExclusionFilters.System);
                 Config = new ConfigurationBuilder()
                     .AddIniFile(provider, confFileName, false, false)

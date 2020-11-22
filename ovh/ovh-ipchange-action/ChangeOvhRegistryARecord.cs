@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 namespace ipchange_action
 {
-
     public class IpTarget
     {
         public string target { get; set; }
@@ -24,9 +23,8 @@ namespace ipchange_action
 
         public async Task ProcessNewIpAddress(string newIpAddress)
         {
-
             _logger.Information("Processing new IP Address {newIpAddress}: change IP address for DNS A record.", newIpAddress);
-            OvhRestClient client = new OvhRestClient();
+            OvhRestClient client = new OvhRestClient(_logger);
 
             List<string> domain;
             try

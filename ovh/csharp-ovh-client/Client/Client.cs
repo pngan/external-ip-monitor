@@ -31,6 +31,7 @@ using Newtonsoft.Json.Linq;
 using Ovh.Api.Exceptions;
 using Ovh.Api.Models;
 using Ovh.Api.Testing;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +64,7 @@ namespace Ovh.Api
 
         private readonly Dictionary<string, string> _endpoints =
             new Dictionary<string, string>();
-
+        private readonly ILogger Logger;
         private TimeSpan _defaultTimeout = TimeSpan.FromSeconds(180);
 
         private static HttpClient _httpClient;
@@ -100,7 +101,7 @@ namespace Ovh.Api
 
         private ITimeProvider _timeProvider = new TimeProvider();
 
-        private OvhRestClient()
+        private OvhRestClient(ILogger logger)
         {
             _endpoints.Add("ovh-eu", "https://eu.api.ovh.com/1.0/");
             _endpoints.Add("ovh-us", "https://api.us.ovhcloud.com/1.0/");
@@ -110,6 +111,7 @@ namespace Ovh.Api
             _endpoints.Add("soyoustart-eu", "https://eu.api.soyoustart.com/1.0/");
             _endpoints.Add("soyoustart-ca", "https://ca.api.soyoustart.com/1.0/");
             _endpoints.Add("runabove-ca", "https://api.runabove.com/1.0/");
+            this.Logger = logger;
         }
 
         private void LoadConfiguration(string endpoint, string applicationKey,
@@ -119,7 +121,7 @@ namespace Ovh.Api
 
             Endpoint = new Uri(_endpoints["ovh-eu"]);
 
-            ConfigurationManager = new ConfigurationManager(confFileName);
+            ConfigurationManager = new ConfigurationManager(confFileName, Logger);
 
             try
             {
@@ -179,10 +181,10 @@ namespace Ovh.Api
         /// <param name="consumerKey">User token as provided by OVH</param>
         /// <param name="defaultTimeout">Connection timeout for each request</param>
         /// <param name="parameterSeparator">Separator that should be used when sending Batch Requests</param>
-        public OvhRestClient(string endpoint = null, string applicationKey = null,
+        public OvhRestClient(ILogger logger,  string endpoint = null, string applicationKey = null,
             string applicationSecret = null, string consumerKey = null,
             TimeSpan? defaultTimeout = null, char parameterSeparator = ',',
-            HttpClient httpClient = null, string confFileName = ".ovh.conf") : this()
+            HttpClient httpClient = null, string confFileName = ".ovh.conf") : this(logger)
         {
             LoadConfiguration(endpoint, applicationKey, applicationSecret, consumerKey, parameterSeparator, confFileName);
             _defaultTimeout = defaultTimeout ?? _defaultTimeout;
