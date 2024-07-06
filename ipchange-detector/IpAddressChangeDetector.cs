@@ -14,7 +14,7 @@ namespace ipchange_detector
         private readonly HttpClient _client;
         private readonly IFileSystem _fileSystem;
         private readonly ILogger _logger;
-        public const string PreviousIpAddressFile = @"/ipmon/ip-address.txt";
+        public const string PreviousIpAddressFile = @"ipmon/ip-address.txt";
         public const string IpifyUri = "https://api.ipify.org";
 
         public IpAddressChangeDetector(IHttpClientFactory httpClientFactory, IFileSystem fileSystem, ILogger logger)

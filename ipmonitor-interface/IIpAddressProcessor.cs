@@ -4,6 +4,12 @@ namespace ipmonitor_interface
 {
     public interface IIpAddressProcessor
     {
-        Task ProcessNewIpAddress(string newIpAddress);
+        /// <summary>
+        /// Sets the <paramref name="newIpAddress"/> for the DNS A Record <paramref name="dnsARecord"/>
+        /// </summary>
+        /// <param name="dnsARecord"></param>
+        /// <param name="newIpAddress"></param>
+        /// <returns></returns>
+        Task ProcessNewIpAddress(string dnsARecord, string newIpAddress);
     }
 }

@@ -1,5 +1,4 @@
-﻿using ipmonitor_interface;
-using ipmonitor_model;
+﻿using ipmonitor_model;
 
 namespace ipmonitor
 {

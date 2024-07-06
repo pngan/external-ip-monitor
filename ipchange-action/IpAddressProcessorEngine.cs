@@ -7,11 +7,11 @@ namespace ipchange_action
     public class IpAddressProcessorEngine : IIpAddressProcessorEngine
     {
         private readonly List<IIpAddressProcessor> _processors = new List<IIpAddressProcessor>();
-        public async Task ProcessNewIpAddress(string newIpAddress)
+        public async Task ProcessNewIpAddress(string dnsARecord, string newIpAddress)
         {
             foreach (var addressProcessor in _processors)
             {
-                await addressProcessor.ProcessNewIpAddress(newIpAddress);
+                await addressProcessor.ProcessNewIpAddress(dnsARecord, newIpAddress);
             }
         }
 

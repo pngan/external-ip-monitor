@@ -39,3 +39,6 @@ App/data/ip-address.txt
 
 # Secrets
 ovh.conf
+
+#temp dir
+*/ipmon/
