@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime;
 using System.Threading.Tasks;
 using ipchange_action;
@@ -14,7 +16,7 @@ namespace NetCore.Docker
         private const string AppSettingsFile = "appsettings.json";
         private readonly int CheckIntervalInSeconds;
         private readonly bool AlwaysUpdateIpAddress;
-        private readonly string DnsARecord;
+        private readonly List<string> DnsARecords;
         private readonly IIpAddressChangeDetector _addressChangeDetector;
         private readonly IIpAddressProcessorEngine _addressProcessorEngine;
         private readonly ILogger _logger;
@@ -41,11 +43,23 @@ namespace NetCore.Docker
                 _logger.Information("Config: pollIntervalInSeconds = {PollingInterval} seconds", CheckIntervalInSeconds);
                 AlwaysUpdateIpAddress = bool.Parse(config["alwaysUpdateIpAddress"]);
                 _logger.Information("Config: alwaysUpdateIpAddress = {AlwaysUpdateIpAddress}; Force address update on every address check", AlwaysUpdateIpAddress);
-                DnsARecord = Environment.GetEnvironmentVariable("DNSARECORD") ?? String.Empty;
-                _logger.Information("Config: dnsARecord = '{dnsARecord}'; The DNS A Record to update", DnsARecord);
+
+                var configuredDomains = config.GetSection("domains").Get<List<string>>() ?? new List<string>();
+                if (configuredDomains.Count > 0)
+                {
+                    DnsARecords = configuredDomains;
+                }
+                else
+                {
+                    var envRecord = Environment.GetEnvironmentVariable("DNSARECORD") ?? string.Empty;
+                    DnsARecords = string.IsNullOrWhiteSpace(envRecord) ? new List<string>() : new List<string> { envRecord };
+                }
+
+                _logger.Information("Config: domains = [{DnsARecords}]; The DNS A Records to update", string.Join(", ", DnsARecords));
             }
             catch
             {
+                DnsARecords = new List<string>();
                 _logger.Error("Unable to read integer value for 'pollIntervalInSeconds' from: {AppSettingsFile}", AppSettingsFile);
             }
         }
@@ -71,7 +85,12 @@ namespace NetCore.Docker
         {
             var ipChangeResult = await _addressChangeDetector.HasIpAddressChanged();
             if (ipChangeResult.IpAddressHasChanged || AlwaysUpdateIpAddress)
-                await _addressProcessorEngine.ProcessNewIpAddress(DnsARecord, ipChangeResult.NewIpAddress);
+            {
+                foreach (var domain in DnsARecords)
+                {
+                    await _addressProcessorEngine.ProcessNewIpAddress(domain, ipChangeResult.NewIpAddress);
+                }
+            }
         }
     }
 }
