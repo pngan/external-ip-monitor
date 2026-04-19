@@ -99,7 +99,7 @@ namespace Ovh.Api
         private bool _isTimeDeltaInitialized;
         private long _timeDelta;
 
-        private ITimeProvider _timeProvider = new TimeProvider();
+        private ITimeProvider _timeProvider = new Ovh.Api.Testing.TimeProvider();
 
         private OvhRestClient(ILogger logger)
         {
