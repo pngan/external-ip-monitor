@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>ipchange_detector</RootNamespace>
     <Nullable>enable</Nullable>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -14,10 +14,10 @@
 
   <ItemGroup>
     <PackageReference Include="AutofacSerilogIntegration" Version="5.0.0" />
-    <PackageReference Include="AutoFixture.AutoMoq" Version="4.14.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
-    <PackageReference Include="microsoft.extensions.http" Version="3.1.7" />
-    <PackageReference Include="system.io.abstractions" Version="12.1.1" />
+    <PackageReference Include="AutoFixture.AutoMoq" Version="4.18.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.6" />
+    <PackageReference Include="microsoft.extensions.http" Version="10.0.6" />
+    <PackageReference Include="system.io.abstractions" Version="22.1.1" />
   </ItemGroup>
 
 </Project>
