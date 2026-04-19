@@ -22,77 +22,74 @@ namespace ipchange_action
             _logger = logger;
         }
 
-        public async Task ProcessNewIpAddress(string dnsARecord, string newIpAddress)
+        public async Task ProcessNewIpAddress(string newIpAddress)
         {
             _logger.Information("Processing new IP Address {newIpAddress}: change IP address for DNS A record.", newIpAddress);
             OvhRestClient client = new OvhRestClient(_logger);
 
-            List<string> domain;
-            string? aRecord = null;
+            List<string> domains;
             try
             {
-                domain = await client.GetAsync<List<string>>("/domain");
-
-                _logger.Information("Retrieved domains from ovh are: {0}", String.Join(",", domain));
-
-                aRecord = domain.FirstOrDefault(d => string.Equals(d, dnsARecord, StringComparison.OrdinalIgnoreCase));
-
-                if (aRecord is null)
-                {
-                    _logger.Error("Unable to retrieve domain {dnsARecord} from Ovh", dnsARecord);
-                    return;
-                }
+                domains = await client.GetAsync<List<string>>("/domain");
+                _logger.Information("Retrieved domains from ovh are: {0}", String.Join(",", domains));
             }
             catch (Exception ex)
             {
-                _logger.Error("Unable to retrieve domain. {Exception}", ex);
+                _logger.Error("Unable to retrieve domains from OVH. {Exception}", ex);
                 return;
             }
 
-            _logger.Information("Domain {aRecord} has been retrieved.", aRecord);
+            foreach (var domain in domains)
+            {
+                await UpdateDomain(client, domain, newIpAddress);
+            }
 
+            await Task.CompletedTask;
+        }
 
+        private async Task UpdateDomain(OvhRestClient client, string domain, string newIpAddress)
+        {
             List<long> dnsRecords;
             try
             {
-                dnsRecords = await client.GetAsync<List<long>>($"/domain/zone/{aRecord}/record?fieldType=A");
-                if (dnsRecords.Count != 1)
+                dnsRecords = await client.GetAsync<List<long>>($"/domain/zone/{domain}/record?fieldType=A");
+                if (dnsRecords.Count == 0)
                 {
-                    _logger.Error("Unable to retrieve DNS A record for {aRecord}", aRecord);
+                    _logger.Warning("No DNS A records found for {domain}, skipping.", domain);
                     return;
                 }
             }
             catch (Exception ex)
             {
-                _logger.Error("Unable to retrieve DNS A record. {Exception}", ex);
+                _logger.Error("Unable to retrieve DNS A records for {domain}. {Exception}", domain, ex);
                 return;
             }
 
+            foreach (var recordId in dnsRecords)
+            {
+                var ipTarget = new IpTarget { target = newIpAddress };
+                try
+                {
+                    await client.PutAsync($"domain/zone/{domain}/record/{recordId}", ipTarget);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error("Unable to set DNS A record {recordId} for {domain} to {IpAddress}. {Exception}", recordId, domain, newIpAddress, ex);
+                    return;
+                }
+            }
 
-            var ipTarget = new IpTarget { target = newIpAddress };
             try
             {
-                await client.PutAsync($"domain/zone/{aRecord}/record/{dnsRecords[0]}", ipTarget);
-            }
-            catch(Exception ex)
-            {
-                _logger.Error("Unable to set DNS A record, to IpAddress {IpAddress}. {Exception}", newIpAddress, ex);
-                return;
-            }
-
-            try
-            {
-                await client.PostAsync($"domain/zone/{aRecord}/refresh");
+                await client.PostAsync($"domain/zone/{domain}/refresh");
             }
             catch (Exception ex)
             {
-                _logger.Error("Unable to refresh DNS zone: {aRecord}. {ex}", aRecord, ex);
+                _logger.Error("Unable to refresh DNS zone: {domain}. {ex}", domain, ex);
                 return;
             }
 
-            _logger.Information("Domain {aRecord} has been updated to the IP address {newIpAddress}.", aRecord, newIpAddress);
-
-            await Task.CompletedTask;
+            _logger.Information("Domain {domain} has been updated to the IP address {newIpAddress}.", domain, newIpAddress);
         }
     }
 }

@@ -5,11 +5,8 @@ namespace ipmonitor_interface
     public interface IIpAddressProcessor
     {
         /// <summary>
-        /// Sets the <paramref name="newIpAddress"/> for the DNS A Record <paramref name="dnsARecord"/>
+        /// Updates all managed DNS A Records to <paramref name="newIpAddress"/>
         /// </summary>
-        /// <param name="dnsARecord"></param>
-        /// <param name="newIpAddress"></param>
-        /// <returns></returns>
-        Task ProcessNewIpAddress(string dnsARecord, string newIpAddress);
+        Task ProcessNewIpAddress(string newIpAddress);
     }
 }
